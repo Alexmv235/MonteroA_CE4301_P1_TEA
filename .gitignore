@@ -1,3 +1,6 @@
 #Todos los archivos de la carpeta example/ y sus subcarpetas
 examples/**/*.*
-#El archivo build.sh
+
+# Ignorar archivos de compilación elf, o
+*/*.elf
+*/*.o
