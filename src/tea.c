@@ -144,11 +144,12 @@ void demo() {
 }
 
 void fin() {
-    print_string("Demo complete.\n");
+    print_char('\n');
 }
 
 int main() {
     demo();
+    print_string("Ejecución de programa TEA terminada.\n");
     fin();
     return 0; // Termina el programa correctamente para GDB
 }
