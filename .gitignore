@@ -1,0 +1,3 @@
+#Todos los archivos de la carpeta example/ y sus subcarpetas
+examples/**/*.*
+#El archivo build.sh
