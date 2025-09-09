@@ -3,4 +3,4 @@
 echo "Starting GDB with tea.elf..."
 echo "In GDB: target remote :1234"
 echo "Layout: asm and regs"
-gdb-multiarch tea.elf -x debug.gdb
+gdb-multiarch tea.elf -x source/debug/debug.gdb

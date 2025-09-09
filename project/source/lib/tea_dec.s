@@ -1,12 +1,24 @@
-# Funcion ensamblador para encriptar 64bits con una clave de 128bits
-# Function signature: void tea_encrypt()
-# a0 = input parameter n
-# a0 = return value
-
 .section .text
-.globl tea_decrypt
+.globl tea_decrypt_asm
 
-tea_decrypt:
+# Function: tea_decrypt_asm
+# Description:
+#               Desencripta un bloque de 64 bits usando una clave de 128 bits (TEA)
+# Params:
+#   a0: dirección del bloque de datos de 64 bits (v0 | v1)
+#   a1: dirección de la clave de 128 bits (KEY[0..3])
+#
+# Returns:
+#   El bloque desencriptado se almacena en la misma dirección a0
+#
+# Registros usados: t0, t1, t2, t3, t4, t5, a2, a3, a4, a5, a6
+#
+#References:
+#   - David J Wheeler and Roger M Needham. Tea, a tiny encryption algorithm
+#       https://www.tayloredge.com/reference/Mathematics/TEA-XTEA.pdf
+
+
+tea_decrypt_asm:
 
     lw      t0, 0(a0)          # t0 = v0
     lw      t1, 4(a0)          # t1 = v1

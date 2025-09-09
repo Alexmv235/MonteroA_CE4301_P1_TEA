@@ -12,7 +12,7 @@ riscv64-unknown-elf-gcc \
     -g3 \
     -gdwarf-4 \
     -c \
-    tea.c \
+    source/tea.c \
     -o tea.o
 
 if [ $? -ne 0 ]; then
@@ -29,7 +29,7 @@ riscv64-unknown-elf-gcc \
     -g3 \
     -gdwarf-4 \
     -c \
-    startup.s \
+    source/startup.s \
     -o startup.o
 
 if [ $? -ne 0 ]; then
@@ -46,7 +46,7 @@ riscv64-unknown-elf-gcc \
     -g3 \
     -gdwarf-4 \
     -c \
-    tea_enc.s \
+    source/lib/tea_enc.s \
     -o tea_enc.o
 
 if [ $? -ne 0 ]; then
@@ -63,7 +63,7 @@ riscv64-unknown-elf-gcc \
     -g3 \
     -gdwarf-4 \
     -c \
-    tea_dec.s \
+    source/lib/tea_dec.s \
     -o tea_dec.o
 
 if [ $? -ne 0 ]; then
@@ -83,7 +83,7 @@ riscv64-unknown-elf-gcc \
     tea.o \
     tea_enc.o \
     tea_dec.o \
-    -T linker.ld \
+    -T source/linker.ld \
     -o tea.elf
 
 if [ $? -eq 0 ]; then

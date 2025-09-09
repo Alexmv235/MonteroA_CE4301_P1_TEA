@@ -4,8 +4,8 @@ layout asm
 layout regs
 break _start
 break main
-break tea_decrypt
-break tea_encrypt
+break tea_decrypt_asm
+break tea_encrypt_asm
 break fin
 commands $bpnum
     kill

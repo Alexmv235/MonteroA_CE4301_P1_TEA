@@ -5,8 +5,8 @@
 
 // Assembly function declaration
 extern int sum_to_n(int n);
-extern void tea_encrypt(uint32_t* data, uint32_t* key);
-extern void tea_decrypt(uint32_t* data, uint32_t* key);
+extern void tea_encrypt_asm(uint32_t* data, uint32_t* key);
+extern void tea_decrypt_asm(uint32_t* data, uint32_t* key);
 
 // ==========================
 // Bare-metal UART printing
@@ -114,7 +114,7 @@ void demo() {
     int tam = padded_len / 8; // número de registros de 32 bits
     for (int i = 0; i < tam; i++) {
         //funcion esamblador foo que recibe buffer + i*8 y key
-        tea_encrypt((uint32_t*)(buffer + i * 8), key);
+        tea_encrypt_asm((uint32_t*)(buffer + i * 8), key);
     }
     //cadena encriptada
     print_string("Encrypted buffer (hex):\t");
@@ -124,7 +124,7 @@ void demo() {
     // 5️⃣ Decrypt
     for (int i = 0; i < tam; i++) {
         //funcion esamblador foo que recibe buffer + i*8 y key
-        tea_decrypt((uint32_t*)(buffer + i * 8), key);
+        tea_decrypt_asm((uint32_t*)(buffer + i * 8), key);
     }
     print_string("Decrypted buffer (hex):\t");
     print_buffer_hex(buffer, padded_len);
