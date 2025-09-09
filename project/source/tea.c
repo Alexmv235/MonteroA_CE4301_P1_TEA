@@ -1,84 +1,12 @@
+#include "lib/print.h"
+#include "lib/fkcs7p.h"
 #include <stdint.h>
 
 // Simple C program that calls assembly function
 // This demonstrates C+assembly integration in RISC-V
 
-// Assembly function declaration
-extern int sum_to_n(int n);
 extern void tea_encrypt_asm(uint32_t* data, uint32_t* key);
 extern void tea_decrypt_asm(uint32_t* data, uint32_t* key);
-
-// ==========================
-// Bare-metal UART printing
-// ==========================
-
-void print_char(char c) {
-    volatile char *uart = (volatile char*)0x10000000;
-    *uart = c;
-}
-
-void print_string(const char* str) {
-    while (*str) {
-        print_char(*str++);
-    }
-}
-
-// Hex printer
-char nibble_to_hex(uint8_t nibble) {
-    return (nibble < 10) ? ('0' + nibble) : ('A' + (nibble - 10));
-}
-
-void print_byte_hex(uint8_t byte) {
-    print_char(nibble_to_hex((byte >> 4) & 0x0F));
-    print_char(nibble_to_hex(byte & 0x0F));
-}
-
-void print_buffer_hex(const uint8_t* buf, int len) {
-    for (int i = 0; i < len; i++) {
-        print_byte_hex(buf[i]);
-        print_char(' ');
-    }
-}
-
-// Array ASCII printer
-void print_array_ascii(const uint8_t* buf, int len) {
-    for (int i = 0; i < len; i++) {
-        print_char((char)buf[i]);
-    }
-}
-
-// ==========================
-// FKCS7 padding/unpadding
-// ==========================
-
-int fkcs7_pad(const uint8_t* input, int input_len, uint8_t* output) {
-    int pad_len = 8 - (input_len % 8);
-    if (pad_len == 0) pad_len = 8;
-
-    // Copy input
-    for (int i = 0; i < input_len; i++)
-        output[i] = input[i];
-
-    // Add padding
-    for (int i = 0; i < pad_len; i++)
-        output[input_len + i] = (uint8_t)pad_len;
-
-    return input_len + pad_len; // total length after padding
-}
-
-int fkcs7_unpad(uint8_t* buf, int buf_len) {
-    if (buf_len == 0) return 0;
-
-    uint8_t pad_len = buf[buf_len - 1];
-    if (pad_len == 0 || pad_len > 8) return 0; // invalid padding
-
-    for (int i = 0; i < pad_len; i++) {
-        if (buf[buf_len - 1 - i] != pad_len)
-            return 0; // invalid padding
-    }
-
-    return buf_len - pad_len; // length after removing padding
-}
 
 // ==========================
 // Demo
@@ -91,11 +19,6 @@ void demo() {
 
     // 128 bits key  0x12345678u, 0x9ABCDEF0u, 0xFEDCBA98u, 0x76543210u
     uint32_t key[4] = {0x12345678u, 0x9ABCDEF0u, 0xFEDCBA98u, 0x76543210u};
-
-
-
-    
-
 
     // 3️⃣ Print unpadded as ASCII
     print_string("Unpadded buffer (ASCII):\t");

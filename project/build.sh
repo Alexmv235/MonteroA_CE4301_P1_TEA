@@ -71,6 +71,41 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Compile print.c to object file
+riscv64-unknown-elf-gcc \
+    -march=rv32im \
+    -mabi=ilp32 \
+    -nostdlib \
+    -ffreestanding \
+    -g3 \
+    -gdwarf-4 \
+    -c \
+    source/lib/print.c \
+    -o print.o
+
+if [ $? -ne 0 ]; then
+    echo "print.c compilation failed"
+    exit 1
+fi
+
+
+# Compile fkcs7p.c to object file
+riscv64-unknown-elf-gcc \
+    -march=rv32im \
+    -mabi=ilp32 \
+    -nostdlib \
+    -ffreestanding \
+    -g3 \
+    -gdwarf-4 \
+    -c \
+    source/lib/fkcs7p.c \
+    -o fkcs7p.o
+
+if [ $? -ne 0 ]; then
+    echo "print.c compilation failed"
+    exit 1
+fi
+
 # Link object files together
 riscv64-unknown-elf-gcc \
     -march=rv32im \
@@ -81,6 +116,8 @@ riscv64-unknown-elf-gcc \
     -gdwarf-4 \
     startup.o \
     tea.o \
+    print.o \
+    fkcs7p.o \
     tea_enc.o \
     tea_dec.o \
     -T source/linker.ld \
