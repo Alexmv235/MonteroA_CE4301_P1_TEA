@@ -2,5 +2,5 @@
 examples/**/*.*
 
 # Ignorar archivos de compilación elf, o
-*/*.elf
-*/*.o
+**/*.elf
+**/*.o
