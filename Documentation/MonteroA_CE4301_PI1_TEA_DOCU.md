@@ -37,4 +37,18 @@ Mientras que la función se definió en código ensamblador de la siguiente mane
 tea_encrypt_asm:
     # IMPLEMTENTACIÓN ...
 ```
+De esta forma:
 
+El código en C prepara los datos y gestiona la memoria.
+
+El ensamblador se encarga de procesarlos con las rutinas de bajo nivel.
+
+## 1.3 Justificación de las decisiones de diseño
+
+Modularidad: Separar la lógica de alto nivel (C) de las rutinas de cifrado (ASM) facilita la comprensión, depuración y futura ampliación del proyecto.
+
+Eficiencia: El cifrado requiere operaciones repetitivas y bit a bit, que se ejecutan de forma más eficiente en ensamblador optimizado.
+
+Portabilidad: Al mantener la gestión de cadenas y la lógica general en C, el código puede adaptarse fácilmente a otros entornos o arquitecturas.
+
+Simulación realista: La emulación de UART en C permite verificar el comportamiento del sistema de salida sin necesidad de hardware físico adicional.
