@@ -13,7 +13,7 @@ riscv64-unknown-elf-gcc \
     -gdwarf-4 \
     -c \
     source/tea.c \
-    -o tea.o
+    -o  source/out/tea.o
 
 if [ $? -ne 0 ]; then
     echo "C compilation failed"
@@ -30,7 +30,7 @@ riscv64-unknown-elf-gcc \
     -gdwarf-4 \
     -c \
     source/startup.s \
-    -o startup.o
+    -o  source/out/startup.o
 
 if [ $? -ne 0 ]; then
     echo "Startup assembly compilation failed"
@@ -47,7 +47,7 @@ riscv64-unknown-elf-gcc \
     -gdwarf-4 \
     -c \
     source/lib/tea_enc.s \
-    -o tea_enc.o
+    -o  source/out/tea_enc.o
 
 if [ $? -ne 0 ]; then
     echo "tea_enc assembly compilation failed"
@@ -64,7 +64,7 @@ riscv64-unknown-elf-gcc \
     -gdwarf-4 \
     -c \
     source/lib/tea_dec.s \
-    -o tea_dec.o
+    -o  source/out/tea_dec.o
 
 if [ $? -ne 0 ]; then
     echo "tea_dec assembly compilation failed"
@@ -81,7 +81,7 @@ riscv64-unknown-elf-gcc \
     -gdwarf-4 \
     -c \
     source/lib/print.c \
-    -o print.o
+    -o  source/out/print.o
 
 if [ $? -ne 0 ]; then
     echo "print.c compilation failed"
@@ -99,7 +99,7 @@ riscv64-unknown-elf-gcc \
     -gdwarf-4 \
     -c \
     source/lib/fkcs7p.c \
-    -o fkcs7p.o
+    -o  source/out/fkcs7p.o
 
 if [ $? -ne 0 ]; then
     echo "print.c compilation failed"
@@ -114,12 +114,12 @@ riscv64-unknown-elf-gcc \
     -ffreestanding \
     -g3 \
     -gdwarf-4 \
-    startup.o \
-    tea.o \
-    print.o \
-    fkcs7p.o \
-    tea_enc.o \
-    tea_dec.o \
+     source/out/startup.o \
+     source/out/tea.o \
+     source/out/print.o \
+     source/out/fkcs7p.o \
+     source/out/tea_enc.o \
+     source/out/tea_dec.o \
     -T source/linker.ld \
     -o tea.elf
 
