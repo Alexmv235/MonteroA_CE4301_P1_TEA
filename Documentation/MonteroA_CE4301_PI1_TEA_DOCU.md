@@ -126,12 +126,24 @@ El código ensamblador implementa las funciones críticas de **cifrado y descifr
 ## 2.4 Diagrama funcional
 
 ```mermaid
-flowchart LR
-    A[Texto de entrada] --> B[Padding PKCS7 en C]
-    B --> C[Enc (ASM, TEA 32 rondas)]
+flowchart TD
+    A[Texto de entrada] --> B[Aplicar Padding PKCS7]
+    B --> C[Cifrado TEA<br/>32 rondas en ASM]
     C --> D[Texto cifrado]
-    D -->|Descifrado| E[Dec (ASM, TEA 32 rondas)]
-    E --> F[Unpadding en C]
-    F --> G[Texto descifrado]
-    G -.->|Ciclo| A
+    
+    D --> E[Descifrado TEA<br/>32 rondas en ASM]
+    E --> F[Remover Padding PKCS7]
+    F --> G[Texto original]
+    
+    %% Separación visual entre procesos
+    H[Proceso de Cifrado] -.-> I[Proceso de Descifrado]
+    
+    %% Estilos para mejor visualización
+    classDef inputOutput fill:#e1f5fe
+    classDef process fill:#f3e5f5
+    classDef crypto fill:#fff3e0
+    
+    class A,G inputOutput
+    class B,F process
+    class C,E crypto
 ```
