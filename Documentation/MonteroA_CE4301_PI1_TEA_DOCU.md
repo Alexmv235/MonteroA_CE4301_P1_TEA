@@ -147,3 +147,65 @@ flowchart TD
     class B,F process
     class C,E crypto
 ```
+
+# 3. Documentación de evidencias de ejecución de GDB y QEMU
+
+En esta sección se presentan las pruebas realizadas para validar el correcto funcionamiento del sistema utilizando **QEMU** como emulador de la arquitectura RISC-V y **GDB** como depurador.  
+
+---
+
+## 3.1 Ejecución en QEMU
+
+Para ejecutar el programa compilado en formato `.elf`, se utiliza el script **`run-quemu.sh`**, el cual inicializa QEMU con los parámetros adecuados de máquina virtual, sin interfaz gráfica y con salida redirigida a consola.  
+
+Al ejecutar el script, se observa la salida mostrada en la **Figura 1**.  
+
+📌 *Figura 1: Ejecución del programa en QEMU (insertar captura aquí).*  
+
+---
+
+## 3.2 Ejecución en GDB
+
+Para la depuración, se dispone del script **`run-gdb.sh`**, el cual automatiza:  
+- La conexión remota con el servidor de QEMU.  
+- La configuración de breakpoints iniciales.  
+- La visualización de registros y código en ASM.  
+
+Si bien el uso de este script es opcional, se recomienda su ejecución para agilizar el proceso de depuración.  
+
+La vista obtenida se muestra en la **Figura 2**, donde se aprecian:  
+- Los registros de la CPU.  
+- El código ensamblador cargado.  
+- Los breakpoints establecidos.  
+
+📌 *Figura 2: Ejecución de GDB conectado a QEMU (insertar captura aquí).*  
+
+---
+
+## 3.3 Ejecución de los ejemplos propuestos
+
+Se realizaron pruebas de cifrado y descifrado con diferentes configuraciones de entrada para validar el correcto funcionamiento del algoritmo TEA en conjunto con el sistema de padding/unpadding.  
+
+### Prueba 1 – Bloque único
+- **Entrada:** cadena `HOLA1234` (exactamente 64 bits).  
+- **Clave utilizada:**  0x12345678 
+0x9ABCDEF0, 0xFEDCBA98, 0x76543210
+- **Proceso:**  
+- La cadena se pasa directamente al algoritmo TEA (no requiere padding).  
+- Se aplica el proceso de cifrado (32 rondas).  
+- Posteriormente se descifra el bloque.  
+- **Resultado esperado:**  
+El bloque descifrado debe coincidir exactamente con la cadena original `HOLA1234`.  
+
+### Prueba 2 – Múltiples bloques
+- **Entrada:** cadena `Mensaje de prueba para TEA`.  
+- **Clave utilizada:** clave arbitraria válida de 128 bits.  
+- **Proceso:**  
+- El sistema aplica **padding PKCS7** para ajustar el tamaño del mensaje a múltiplos de 64 bits.  
+- Cada bloque es cifrado de manera independiente mediante TEA.  
+- Los bloques cifrados son luego descifrados en orden, aplicando unpadding al resultado.  
+- **Resultado esperado:**  
+La cadena descifrada debe coincidir con el mensaje original `Mensaje de prueba para TEA`, confirmando el correcto funcionamiento del sistema de relleno y descifrado.  
+
+---
+
