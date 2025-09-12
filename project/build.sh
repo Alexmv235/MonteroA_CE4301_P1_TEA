@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# create output directory
+mkdir -p source/out
+
 # Build script for C+assembly tea
 echo "Building C+assembly tea..."
 
