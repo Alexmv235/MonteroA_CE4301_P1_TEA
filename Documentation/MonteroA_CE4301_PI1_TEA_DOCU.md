@@ -160,7 +160,8 @@ Para ejecutar el programa compilado en formato `.elf`, se utiliza el script **`r
 
 Al ejecutar el script, se observa la salida mostrada en la **Figura 1**.  
 
-📌 *Figura 1: Ejecución del programa en QEMU (insertar captura aquí).*  
+*Figura 1: Ejecución del programa en QEMU*
+![Figura 1: Ejecución en QEMU](./assets/fig_qemu.png)
 
 ---
 
@@ -178,7 +179,8 @@ La vista obtenida se muestra en la **Figura 2**, donde se aprecian:
 - El código ensamblador cargado.  
 - Los breakpoints establecidos.  
 
-📌 *Figura 2: Ejecución de GDB conectado a QEMU (insertar captura aquí).*  
+*Figura 2: Ejecución de GDB conectado a QEMU*  
+![Figura 2: Ejecución de GDB QEMU](./assets/fig2_gdb.png)
 
 ---
 
