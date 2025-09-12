@@ -161,6 +161,7 @@ Para ejecutar el programa compilado en formato `.elf`, se utiliza el script **`r
 Al ejecutar el script, se observa la salida mostrada en la **Figura 1**.  
 
 *Figura 1: Ejecución del programa en QEMU*
+
 ![Figura 1: Ejecución en QEMU](./assets/fig_qemu.png)
 
 ---
