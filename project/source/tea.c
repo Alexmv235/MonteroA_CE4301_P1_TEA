@@ -13,7 +13,7 @@ extern void tea_decrypt_asm(uint32_t* data, uint32_t* key);
 // ==========================
 
 void demo() {
-    char message[] = "Mensaje de prueba para TEA"; // string en vez de lista hexadecimal
+    char message[] = "Prueba ejemplo TEA C-ASMRV32"; // string en vez de lista hexadecimal
     int message_len = sizeof(message) - 1; // no cuenta el null terminator
     uint8_t buffer[message_len + 8]; // tamaño suficiente para padding
 

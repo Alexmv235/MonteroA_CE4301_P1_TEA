@@ -250,11 +250,6 @@ En esta sección se analizan los resultados obtenidos durante las pruebas del si
 Se realizaron múltiples pruebas utilizando diferentes claves de 128 bits y entradas de distinto tamaño.
 
 
-
-
-
-
-
 - Todas las funciones implementadas en C (**PKCS7 padding/unpadding**) funcionaron correctamente según lo esperado.  
 - Las funciones críticas implementadas en **ASM (TEA 32 rondas)** cifraron y descifraron los bloques de 64 bits sin errores, validando la correcta interacción entre C y ensamblador.  
 - Los resultados fueron consistentes tanto para bloques individuales como para múltiples bloques con padding aplicado.  
@@ -294,3 +289,120 @@ Se realizaron múltiples pruebas utilizando diferentes claves de 128 bits y entr
 2. Todas las funcionalidades implementadas cumplieron con los requisitos de cifrado, descifrado y manejo de cadenas.  
 3. La simulación de UART y la integración con QEMU y GDB facilitaron la validación de resultados y la depuración de errores.  
 4. El proyecto constituye una base sólida para el aprendizaje de criptografía simétrica, programación en ASM RV32 y desarrollo de software para sistemas de bajo recursos y en bare-metal.
+
+# 5. Instrucciones para compilar, ejecutar y utilizar el sistema
+
+Esta sección describe cómo compilar el proyecto, ejecutar el sistema en QEMU y depurarlo con GDB, incluyendo ejemplos de uso.
+
+Primeramente, antes de realizar cualquier ejecucución, en la carpeta pricipal del repositorio ejecute este comando en una terminal:
+
+```bash
+./run.sh
+```
+
+Esto ejecuta el docker el cuál contiene un entorno con todas las herramientas necesarias para ejecutar este programa.
+
+## 5.1 Compilación
+
+Para compilar el proyecto y generar el ejecutable `tea.elf`, ejecuta:
+
+```bash
+cd project
+./build.sh
+```
+
+Si la compilación es exitosa, verás el mensaje `Build successful: tea.elf created`.
+
+---
+
+## 5.2 Ejecución en QEMU
+
+Para ejecutar el sistema en el emulador RISC-V QEMU:
+
+```bash
+./run-qemu.sh
+```
+
+Esto inicia QEMU en modo bare-metal y habilita el servidor GDB en el puerto 1234.  
+La salida del programa se mostrará en la consola (simulación UART).
+
+---
+
+## 5.3 Depuración con GDB
+
+En otra terminal, conecta GDB al sistema emulado:
+Primero se debe conectar a la misma instancia del docker previamente en ejecución, y moverse a la carpeta del proyecto dentro del contenedor.
+```bash
+docker exec -it rvqemu /bin/bash
+cd project
+```
+
+### 5.3.1 Ejecución recomendada con script listo para ejecutar
+```bash
+./run-gdb.sh
+```
+
+Esto ejecuta `gdb-multiarch` y carga el script de depuración automatizado (`source/debug/debug.gdb`).  
+El script configura breakpoints, layouts y añade un *watchpoint* a la variable `buffer` para observar cambios durante la ejecución.
+
+### 5.3.2 Ejecución manual de GDB.
+
+```bash
+gdb-multiarch ./tea.elf
+```
+
+**Comandos útiles en GDB:**
+```gdb
+target remote :1234    # Conectar al servidor GDB
+break main             # Punto de ruptura en main
+layout asm             # Vista de ensamblador
+layout regs            # Vista de registros
+watch buffer           # Watchpoint para la variable buffer
+continue               # Continuar ejecución
+step                   # Ejecutar siguiente instrucción
+info registers         # Mostrar registros
+quit                   # Salir de GDB
+```
+
+---
+
+## 5.4 Ejemplo de uso
+
+### Ejemplo 1: Cifrado y descifrado de un mensaje
+
+El programa principal (`tea.c`) realiza los siguientes pasos:
+
+1. Cambie la variable *message* por el mensaje a encripar
+2. Cambie el valor de key por un key de 128bits de su preferencia.
+3. Vuelva a ejecutar el script ./build.sh
+4. Ejecute el script para qemu.
+5. Visualice y avance con la ejecución usando el script de GDB.
+
+**Salida esperada:**
+```
+Unpadded buffer (ASCII):	Mensaje de prueba para TEA
+Padded buffer (hex):	... (hexadecimal)
+Encrypted buffer (hex):	... (hexadecimal)
+Decrypted buffer (hex):	... (hexadecimal)
+Unpadded buffer (hex):	... (hexadecimal)
+Unpadded and decripted buffer (ASCII):	Mensaje de prueba para TEA
+Ejecución de programa TEA terminada.
+```
+
+*Figura 6: Cambio de código para prueba*
+
+![Figura 6: Cambio de código para prueba](./assets/FIG6_EJ1.png)
+
+
+*Figura 7: Termianl con mensajes de finalización y resultados*
+
+![Figura 7: Termianl con mensajes de finalización](./assets/Fig7_ejeResult.png)
+
+## 5.5 Ejemplo de depuración con watchpoint
+
+Durante la depuración, cada vez que la variable `buffer` se modifica (por ejemplo, tras cifrado o descifrado), GDB detendrá la ejecución y mostrará el cambio, facilitando el análisis paso a paso.
+
+
+*Figura 8: GDB con watcher en la variable buffer*
+
+![Figura 8: GDB con watcher en la variable buffer](./assets/fig8_ejePadWtach.png)

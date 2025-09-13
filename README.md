@@ -29,16 +29,6 @@ Este proyecto proporciona un entorno completo para desarrollo y depuración de p
 - `Dockerfile` define la imagen que incluye el emulador QEMU y el toolchain RISC-V
 - `run.sh` automatiza la construcción de la imagen y la ejecución del contenedor
 
-## Ejemplos disponibles
-
-### Ensamblador puro (`examples/asm-only/`)
-Programa simple escrito completamente en ensamblador que calcula la suma del 1 al 10.
-
-### C + Ensamblador (`examples/c-asm/`)
-Programa en C que llama funciones escritas en ensamblador, demostrando la integración entre ambos lenguajes. Este ejemplo incluye un archivo de inicio (startup.s) que inicializa la pila y llama a la función main de C, ya que los programas C necesitan un entorno de ejecución básico antes de ejecutar el código principal.
-
----
-
 ## 2. Inicio rápido
 
 ### Paso 1: Construir el contenedor
@@ -109,3 +99,5 @@ Para información específica sobre cada ejemplo, consultar:
 - [`examples/asm-only/README.md`](examples/asm-only/README.md) - Ensamblador puro
 - [`examples/c-asm/README.md`](examples/c-asm/README.md) - C + Ensamblador
 - [`examples/README.md`](examples/README.md) - Información general
+
+# 5
