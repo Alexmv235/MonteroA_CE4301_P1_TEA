@@ -1,18 +1,42 @@
+// ============= LICENCIA =============
+// MIT License
+// Copyright (c) 2025 Alexander Montero Vargas
+// Consulta el archivo LICENSE para más detalles.
+// =======================================
+
+
+
+
 #include "lib/print.h"
 #include "lib/fkcs7p.h"
 #include <stdint.h>
 
-// Simple C program that calls assembly function
-// This demonstrates C+assembly integration in RISC-V
 
 extern void tea_encrypt_asm(uint32_t* data, uint32_t* key);
 extern void tea_decrypt_asm(uint32_t* data, uint32_t* key);
 
-// ==========================
-// Demo
-// ==========================
+/*
+# Function: demo
+# Description:
+#   Demostración del cifrado y descifrado TEA en ensamblador RISC-V
+#   con padding PKCS7 en C. 
+# Params:
+#   Ninguno
+#
+# Returns:
+#   Ninguno
+#
+#
+*/
 
 void demo() {
+
+    // Cambie la variable *message* por el mensaje a encripar
+    // Cambie el valor de key por un key de 128bits de su preferencia.
+    // Vuelva a ejecutar el script ./build.sh
+    // Ejecute el script para qemu.
+    // Visualice y avance con la ejecución usando el script de GDB.
+
     char message[] = "Prueba ejemplo TEA C-ASMRV32"; // string en vez de lista hexadecimal
     int message_len = sizeof(message) - 1; // no cuenta el null terminator
     uint8_t buffer[message_len + 8]; // tamaño suficiente para padding
@@ -66,13 +90,33 @@ void demo() {
     print_string("\n");
 }
 
+/*
+# Function: fin
+# Description:
+#   Función de finalización del programa. 
+#   Funciona para colocar un breakpoint en GDB y finalizar el programa de forma segura.
+# Params:
+#   Ninguno
+# Returns:
+#   Ninguno
+*/
 void fin() {
     print_char('\n');
 }
 
+/*
+# Function: main
+# Description:
+#   Función principal del programa. Llama a la función demo y finaliza el programa.
+# Params:
+#   Ninguno
+# Returns:
+#   0 - Indica que el programa terminó correctamente.
+*/
+
 int main() {
-    demo();
+    demo(); // Llama a la función demo que contiene la lógica principal
     print_string("Ejecución de programa TEA terminada.\n");
-    fin();
+    fin(); // Llama a la función de finalización para detener con GDB
     return 0; // Termina el programa correctamente para GDB
 }

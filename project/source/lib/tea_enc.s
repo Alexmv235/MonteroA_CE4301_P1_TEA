@@ -1,3 +1,9 @@
+# ============= LICENCIA =============
+# MIT License
+# Copyright (c) 2025 Alexander Montero Vargas
+# Consulta el archivo LICENSE para más detalles.
+# =======================================
+
 .section .text
 .globl tea_encrypt_asm
 

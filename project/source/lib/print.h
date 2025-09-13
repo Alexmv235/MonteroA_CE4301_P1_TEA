@@ -1,3 +1,9 @@
+// ============= LICENCIA =============
+// MIT License
+// Copyright (c) 2025 Alexander Montero Vargas
+// Consulta el archivo LICENSE para más detalles.
+// =======================================
+
 #ifndef PRINT_H
 #define PRINT_H
 #include <stdint.h>
