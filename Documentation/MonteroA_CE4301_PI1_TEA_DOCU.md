@@ -216,10 +216,12 @@ El resultado se observa en la figura 4.
 - **Entrada:** cadena `Mensaje de prueba para TEA`.  
 - **Clave utilizada:** clave arbitraria válida de 128 bits.  
 - **Proceso:**  
-- El sistema aplica **padding PKCS7** para ajustar el tamaño del mensaje a múltiplos de 64 bits, para este caso aplicando la fomrula:
+- El sistema aplica **padding PKCS7** para ajustar el tamaño del mensaje a múltiplos de 64 bits, para este caso aplicando la formula:
+
 $$
 padding = 8 - (len \bmod 8)
 $$
+
     y para este caso $len= 26$ caracteres o Bytes
 
 $$
