@@ -222,7 +222,7 @@ $$
 padding = 8 - (len \bmod 8)
 $$
 
-    y para este caso $len= 26$ caracteres o Bytes
+y para este caso $len= 26$ caracteres o Bytes
 
 $$
 padding = 8 - (26 \bmod 8) = 6
