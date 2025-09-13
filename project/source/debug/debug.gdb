@@ -4,6 +4,12 @@ layout asm
 layout regs
 break _start
 break main
+break demo
+commands
+    silent
+    watch buffer
+    continue
+end
 break tea_decrypt_asm
 break tea_encrypt_asm
 break fin

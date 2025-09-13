@@ -13,12 +13,12 @@ extern void tea_decrypt_asm(uint32_t* data, uint32_t* key);
 // ==========================
 
 void demo() {
-    char message[] = "ESCUELA DE INGENIERIA EN COMPUTADORES"; // string en vez de lista hexadecimal
+    char message[] = "Mensaje de prueba para TEA"; // string en vez de lista hexadecimal
     int message_len = sizeof(message) - 1; // no cuenta el null terminator
     uint8_t buffer[message_len + 8]; // tamaño suficiente para padding
 
-    // 128 bits key  0x12345678u, 0x9ABCDEF0u, 0xFEDCBA98u, 0x76543210u
-    uint32_t key[4] = {0x12345678u, 0x9ABCDEF0u, 0xFEDCBA98u, 0x76543210u};
+    // 128 bits key  0x9f2b3c4d 0xa1b2c3d4 0x5e6f7788 0x0a1b2c3d
+    uint32_t key[4]= {0x9f2b3c4u, 0xa1b2c3d4u, 0x5e6f7788u, 0x0a1b2c3du};
 
     // 3️⃣ Print unpadded as ASCII
     print_string("Unpadded buffer (ASCII):\t");

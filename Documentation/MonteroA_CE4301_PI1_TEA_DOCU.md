@@ -183,6 +183,12 @@ La vista obtenida se muestra en la **Figura 2**, donde se aprecian:
 *Figura 2: Ejecución de GDB conectado a QEMU*  
 ![Figura 2: Ejecución de GDB QEMU](./assets/fig2_gdb.png)
 
+
+Además el script añade n *whatcher* a la variable **buffer** por lo que se muestra en pantalla cada vez que se actualiza:
+
+*Figura 3. Actualización de la variable buffer*
+
+![Figura 3. Actualización de la variable buffer](./assets/fig3_bufferw.png)
 ---
 
 ## 3.3 Ejecución de los ejemplos propuestos
@@ -194,21 +200,40 @@ Se realizaron pruebas de cifrado y descifrado con diferentes configuraciones de 
 - **Clave utilizada:**  0x12345678 
 0x9ABCDEF0, 0xFEDCBA98, 0x76543210
 - **Proceso:**  
-- La cadena se pasa directamente al algoritmo TEA (no requiere padding).  
-- Se aplica el proceso de cifrado (32 rondas).  
-- Posteriormente se descifra el bloque.  
+- Padding: Dado que la cadena es de `8 Bytes`, entonces se aplica un padding de 08.  
+- Se aplica el proceso de cifrado (32 rondas) con la función ASM.  
+- Posteriormente se descifra el bloque. 
+- Se aplica unpadding para eliminar los 8 Bytes con valor "08" 
 - **Resultado esperado:**  
 El bloque descifrado debe coincidir exactamente con la cadena original `HOLA1234`.  
+El resultado se observa en la figura 4.
+
+*Figura 4: Resultado de la prueba 1: HOLA1234*
+
+![Figura 4: Resultado de la prueba 1](./assets/fig4_ej1.png)
 
 ### Prueba 2 – Múltiples bloques
 - **Entrada:** cadena `Mensaje de prueba para TEA`.  
 - **Clave utilizada:** clave arbitraria válida de 128 bits.  
 - **Proceso:**  
-- El sistema aplica **padding PKCS7** para ajustar el tamaño del mensaje a múltiplos de 64 bits.  
+- El sistema aplica **padding PKCS7** para ajustar el tamaño del mensaje a múltiplos de 64 bits, para este caso aplicando la fomrula:
+$$
+padding = 8 - (len \bmod 8)
+$$
+    y para este caso $len= 26$ caracteres o Bytes
+
+$$
+padding = 8 - (26 \bmod 8) = 6
+$$
+
 - Cada bloque es cifrado de manera independiente mediante TEA.  
 - Los bloques cifrados son luego descifrados en orden, aplicando unpadding al resultado.  
 - **Resultado esperado:**  
 La cadena descifrada debe coincidir con el mensaje original `Mensaje de prueba para TEA`, confirmando el correcto funcionamiento del sistema de relleno y descifrado.  
+El resultado obtenido se muestra en la figura 5:
 
+*Figura 5: Resultado de la prueba 2*
+
+![Figura 5: Resultado de la prueba 2](./assets/fig5_ej2.png)
 ---
 
