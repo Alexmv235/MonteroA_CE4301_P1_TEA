@@ -184,7 +184,7 @@ La vista obtenida se muestra en la **Figura 2**, donde se aprecian:
 ![Figura 2: Ejecución de GDB QEMU](./assets/fig2_gdb.png)
 
 
-Además el script añade n *whatcher* a la variable **buffer** por lo que se muestra en pantalla cada vez que se actualiza:
+Además el script añade un *whatcher* a la variable **buffer** por lo que se muestra en pantalla cada vez que se actualiza:
 
 *Figura 3. Actualización de la variable buffer*
 
@@ -239,3 +239,58 @@ El resultado obtenido se muestra en la figura 5:
 ![Figura 5: Resultado de la prueba 2](./assets/fig5_ej2.png)
 ---
 
+# 4. Discusión de resultados
+
+En esta sección se analizan los resultados obtenidos durante las pruebas del sistema, se discute la eficiencia y se señalan las limitaciones y recomendaciones derivadas del proyecto.
+
+---
+
+## 4.1 Resultados de ejecución
+
+Se realizaron múltiples pruebas utilizando diferentes claves de 128 bits y entradas de distinto tamaño.
+
+
+
+
+
+
+
+- Todas las funciones implementadas en C (**PKCS7 padding/unpadding**) funcionaron correctamente según lo esperado.  
+- Las funciones críticas implementadas en **ASM (TEA 32 rondas)** cifraron y descifraron los bloques de 64 bits sin errores, validando la correcta interacción entre C y ensamblador.  
+- Los resultados fueron consistentes tanto para bloques individuales como para múltiples bloques con padding aplicado.  
+
+**Conclusión parcial:** El sistema cumple correctamente con la funcionalidad esperada de cifrado y descifrado, y la salida por consola simula satisfactoriamente la comunicación UART.
+
+---
+
+## 4.2 Rendimiento
+
+- **Tiempo de ejecución:** No se midió de forma precisa la eficiencia temporal debido a la ejecución en un entorno emulado (QEMU).  
+- **Uso de registros y memoria:**  
+  - Las rutinas en ASM fueron diseñadas para utilizar la mínima cantidad de registros posibles.  
+  - No se empleó el **stack pointer (sp)** para ahorrar operaciones de acceso a memoria, aumentando la eficiencia local en registros.  
+
+---
+
+## 4.3 Limitaciones, alcances y mejoras
+
+**Limitaciones conocidas:**  
+- El algoritmo **TEA** es considerado anticuado y vulnerable a ataques criptográficos modernos, por lo que **no se recomienda para aplicaciones de seguridad reales**.  
+- El tiempo de ejecución real no fue evaluado en hardware físico, por lo que las métricas de rendimiento son aproximadas.  
+
+**Alcances académicos:**  
+- Permite aprender y comprender conceptos de cifrado simétrico, manipulación de registros en ASM y la integración de C con ensamblador.  
+- Ofrece experiencia en el uso de QEMU y GDB para depuración y pruebas en arquitecturas RISC-V.  
+
+**Posibles mejoras:**  
+- Implementar algoritmos de cifrado más modernos y seguros (por ejemplo, AES) manteniendo la separación C/ASM.  
+- Medir tiempo de ejecución real en hardware para evaluar eficiencia.  
+
+---
+
+## 4.4 Conclusiones
+
+1. La arquitectura separada entre **C y ASM** funcionó correctamente, permitiendo modularidad y eficiencia.  
+2. Todas las funcionalidades implementadas cumplieron con los requisitos de cifrado, descifrado y manejo de cadenas.  
+3. La simulación de UART y la integración con QEMU y GDB facilitaron la validación de resultados y la depuración de errores.  
+4. El proyecto constituye una base sólida para el aprendizaje de criptografía simétrica, programación en ASM RV32 y desarrollo de software para sistemas de bajo recursos y en bare-metal.
